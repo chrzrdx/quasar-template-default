@@ -7,7 +7,8 @@ var
   baseWebpackConfig = require('./webpack.base.conf'),
   ExtractTextPlugin = require('extract-text-webpack-plugin'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
-  OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+  OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin'),
+  CopyWebpackPlugin = require('copy-webpack-plugin')
 
 module.exports = merge(baseWebpackConfig, {
   module: {
@@ -73,6 +74,13 @@ module.exports = merge(baseWebpackConfig, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest',
       chunks: ['vendor']
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../root'),
+        to: config.build.assetsRoot,
+        ignore: ['.*']
+      }
+    ])
   ]
 })
